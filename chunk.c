@@ -27,3 +27,9 @@ void writeChunk(Chunk* chunk, uint8_t byte) {
     chunk->code[chunk->count] = byte;
     chunk->count++;
 }
+
+int addConstant(Chunk* chunk, Value value) {
+    writeValueArray(&chunk->constants, value);
+    return chunk->constants.count - 1; // TODO why is one arrow and one is dot notation
+    // n.b. return is index of constant so that we can locate it late
+}
