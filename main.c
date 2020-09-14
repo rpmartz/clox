@@ -11,7 +11,7 @@ int main() {
     writeChunk(&chunk, OP_CONSTANT, 341);
     writeChunk(&chunk, constant, 341);
 
-    writeChunk(&chunk, OP_RETURN, 342);
+    writeChunk(&chunk, OP_RETURN, 341);
     disassembleChunk(&chunk, "test chunk");
     freeChunk(&chunk);
 

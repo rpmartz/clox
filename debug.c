@@ -37,6 +37,13 @@ static int constantInstruction(const char* name, Chunk* chunk, int offset) {
 int disassembleInstruction(Chunk* chunk, int offset) {
     printf("%04d ", offset); // `%04d` is signed integer prepended with 4 zeros
 
+    if(offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1]) {
+        printf("  | "); // many lines result in a number of bytecode instructions,
+        // so depict that visually with a pipe
+    } else {
+        printf("%4d ", chunk->lines[offset]);
+    }
+
     uint8_t instruction = chunk->code[offset];
     switch(instruction) {
         case OP_CONSTANT:
