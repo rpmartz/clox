@@ -13,6 +13,7 @@ typedef struct {
     int count;
     int capacity;
     uint8_t* code; // wrapper around array of bytes
+    int* lines;
     ValueArray constants;
 } Chunk; // this struct represents a dynamic array of bytes
 
