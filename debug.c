@@ -8,6 +8,8 @@ void disassembleChunk(Chunk* chunk, const char* name) {
 
     for(int offset = 0; offset < chunk->count; ) {
         // delegate increment of `offset` to `disassembleInstruction`
+        // because different instructions will take up different sizes
+        // in the array, so offset should point to beginning of next instruction
         offset = disassembleInstruction(chunk, offset);
     }
 }
