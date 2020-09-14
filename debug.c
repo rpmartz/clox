@@ -16,7 +16,7 @@ void disassembleChunk(Chunk* chunk, const char* name) {
 
 static int simpleInstruction(const char* name, int offset) {
     printf("%s\n", name);
-    return offset + 1;
+    return offset + 1; // simple instructions are only one byte
 }
 
 static int constantInstruction(const char* name, Chunk* chunk, int offset) {
@@ -30,6 +30,7 @@ static int constantInstruction(const char* name, Chunk* chunk, int offset) {
     printValue(chunk->constants.values[constant]);
     printf("'\n");
 
+    // constants are two bytes - one for opcode and one for index of constant
     return offset + 2; // next instruction is after index of constant
 }
 
