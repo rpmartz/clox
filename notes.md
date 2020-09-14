@@ -8,4 +8,4 @@
 * for small, fixed-size values like integers, many instruction sets store values directly after the opcode and are called **immediate instructions**
 * This does not work for large, or variable sized, values like strings. In a native compiler to machine code, those bigger values get stored in a separate "constant data" region in the binary executable and the instruction to load the constant has an address or offset pointing to where the value is stored in that section
     + _clox_ will store all values in a constant pool, even simple integers
-* 
+* consider the opcode for a constant - in addition to the instruction to load the constant, the vm needs an operand to know which constant to load 
