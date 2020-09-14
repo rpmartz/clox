@@ -9,3 +9,11 @@
 * This does not work for large, or variable sized, values like strings. In a native compiler to machine code, those bigger values get stored in a separate "constant data" region in the binary executable and the instruction to load the constant has an address or offset pointing to where the value is stored in that section
     + _clox_ will store all values in a constant pool, even simple integers
 * consider the opcode for a constant - in addition to the instruction to load the constant, the vm needs an operand to know which constant to load 
+
+## 14.6 Line Info
+
+* in jlox, the tokens in the AST contained their original line numbers
+* clox will store the line numbers in an array in the `Chunk` struct. 
+    + This is inefficient from a memory standpoint
+    + one good part about this design is that it keeps the line numbers out of the bytecode instructions, which means we are not taking up memory that could be used for other instructions for data (line numbers) that will only be used when we need to display an error (which is hopefully infrequently)
+    
