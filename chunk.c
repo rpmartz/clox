@@ -16,6 +16,7 @@ void freeChunk(Chunk* chunk) {
     initChunk(chunk); // zero out chunk to leave it in well defined state
 }
 
+// this function can write opcodes or operands - all just bytes
 void writeChunk(Chunk* chunk, uint8_t byte) {
     if(chunk->capacity < chunk->count + 1) {
         // need to resize array
