@@ -49,6 +49,15 @@ static InterpretResult run() {
         switch(instruction = READ_BYTE()) {
 
 #ifdef DEBUG_TRACE_EXECUTION
+            // print the contents of the stack from bottom (first) to top (last) before disassembling the instruction
+            printf("          ");
+            for(Value* slot = vm.stack; slot < vm.stackTop; slot++) {
+                printf("[");
+                printValue(*slot);
+                printf("]");
+            }
+            printf("\n");
+
             // disassembleInstruction takes a byte offset so we need to convert ip back to a relative offset from the beginning of the bytecode
             disassembleInstruction(vm.chunk, (int)(vm.ip - vm.chunk->code));
 #endif
