@@ -7,8 +7,10 @@
 VM vm;
 
 static void resetStack() {
-    // set stack top to point to beginning of array
+    // set stack top to point to beginning of array.
+    // don't need to clear unused cells because we just won't use them until after
     vm.stackTop = vm.stack;
+    // we can do this because an array is just a pointer to the first element (I think)
 }
 
 void initVM() {
@@ -17,6 +19,23 @@ void initVM() {
 
 void freeVM() {
 
+}
+
+void push(Value value) {
+    // TODO why dereference and now arrow here?
+    *vm.stackTop = value;
+    vm.stackTop++; // point at index after top
+}
+
+Value pop() {
+    /*
+     * `stackTop` points at next unused space in the stack, so in order to return the
+     * last element (i.e. the top) on the stack we decrement it and then return the
+     * value that's there. We can then leave stackTop pointing at it since after the
+     * `pop()` operation it is now the next unused space in the stack.
+     */
+    vm.stackTop--;
+    return *vm.stackTop;
 }
 
 static InterpretResult run() {
