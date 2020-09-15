@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "common.h"
+#include "debug.h"
 #include "vm.h"
 
 VM vm;
@@ -22,6 +23,12 @@ static InterpretResult run() {
     for(;;) { // every turn through this loop, we will read and execute a single bytecode instruction
         uint8_t instruction;
         switch(instruction = READ_BYTE()) {
+
+#ifdef DEBUG_TRACE_EXECUTION
+            // disassembleInstruction takes a byte offset so we need to convert ip back to a relative offset from the beginning of the bytecode
+            disassembleInstruction(vm.chunk, (int)(vm.ip - vm.chunk->code));
+#endif
+
             case OP_CONSTANT: {
                 Value constant = READ_CONSTANT();
                 printValue(constant);
