@@ -6,8 +6,13 @@
 
 VM vm;
 
-void initVM() {
+static void resetStack() {
+    // set stack top to point to beginning of array
+    vm.stackTop = vm.stack;
+}
 
+void initVM() {
+    resetStack();
 }
 
 void freeVM() {
