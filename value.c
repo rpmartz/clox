@@ -9,7 +9,8 @@ void initValueArray(ValueArray* array) {
     array->count = 0;
 }
 
-// todo why pass `array` as pointer but not `value`
+// q: why pass `array` as pointer but not `value`
+// a: because `array` gets modified but it's fine to pass `value` by value
 void writeValueArray(ValueArray* array, Value value) {
     if(array->capacity < array->count + 1) {
         int oldCapacity = array->capacity;
