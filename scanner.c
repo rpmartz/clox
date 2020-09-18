@@ -67,6 +67,14 @@ static char peek() {
     return *scanner.current;
 }
 
+static char peekNext() {
+    if(isAtEnd()) {
+        return '\0';
+    }
+
+    return scanner.current[1];
+}
+
 static void skipWhitespace() {
     for(;;) {
         char c = peek();
@@ -79,6 +87,17 @@ static void skipWhitespace() {
             case '\n':
                 scanner.line++;
                 advance();
+                break;
+
+            case '/':
+                if(peekNext() == '/') {
+                    // only consume initial slash if next character is a slash
+                    while(peek() != '\n' && !isAtEnd()) {
+                        advance();
+                    }
+                } else {
+                    return;
+                }
                 break;
             default:
                 return;;
