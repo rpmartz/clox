@@ -49,6 +49,19 @@ static char advance() {
     return scanner.current[-1];
 }
 
+static bool match(char expected) {
+    if(isAtEnd()) {
+        return false;
+    }
+
+    if(*scanner.current != expected) {
+        return false;
+    }
+
+    scanner.current++;
+    return true;
+}
+
 Token scanToken() {
     scanner.start = scanner.current;
 
@@ -58,6 +71,7 @@ Token scanToken() {
 
     char c = advance();
     switch(c) {
+        // one character tokens
         case '(': return makeToken(TOKEN_LEFT_PAREN);
         case ')': return makeToken(TOKEN_RIGHT_PAREN);
         case '{': return makeToken(TOKEN_LEFT_BRACE);
@@ -69,6 +83,17 @@ Token scanToken() {
         case '+': return makeToken(TOKEN_PLUS);
         case '/': return makeToken(TOKEN_SLASH);
         case '*': return makeToken(TOKEN_STAR);
+
+        // one or more character tokens
+        case '!':
+            return makeToken(match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
+        case '=':
+            return makeToken(match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
+        case '<':
+            return makeToken(match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
+        case '>':
+            return makeToken(match('=') ?
+                             TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     }
 
     return errorToken("Unexpected character.");
