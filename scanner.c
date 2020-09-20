@@ -155,7 +155,7 @@ Token scanToken() {
 
     char c = advance();
 
-    if (isDigit()) {
+    if (isDigit(c)) {
         // handle numbers here instead of adding 10 switch cases
         return number();
     }
