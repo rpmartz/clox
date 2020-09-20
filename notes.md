@@ -20,4 +20,7 @@
 # Chapter 16 Scanning on Demand
 
 * in clox we do not include the actual literal value of the strings in the tokens, just pointers to the start and end 
-    
+ 
+## Identifiers
+
+* in jlox, we could rely on a hashtable to differentiate keywords from identifiers because it was built in to the Java runtime. C doesn't have a built in data structure like that. We could build it, but it's overkill for this. We can use a trie, which minimizes the amount of work to determine if a string matches another (only needs to check minimum number, not consume the whole string to compute the hash code the way a hash table does).    
