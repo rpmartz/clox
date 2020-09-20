@@ -20,6 +20,12 @@ void initScanner(const char* source) {
     scanner.line = 1;
 }
 
+static bool isAlpha(char c) {
+    return (c >= 'a' && c <= 'z') ||
+           (c >= 'A' && c <= 'Z') ||
+           c == '_';
+}
+
 static bool isDigit(char c) {
     return c >= '0' && c <= '9';
 }
@@ -109,6 +115,34 @@ static void skipWhitespace() {
     }
 }
 
+static TokenType checkKeyword(int start, int length, const char* rest, TokenType type) {
+    // TODO why does this check exact length of keyword?
+    bool isExactLengthMatchOfKeyword = scanner.current - scanner.start == start + length;
+    if(isExactLengthMatchOfKeyword && memcmp(scanner.start + start, rest, length) == 0) {
+        return type;
+    }
+
+    return TOKEN_IDENTIFIER;
+}
+
+static TokenType identifierType() {
+    switch (scanner.start[0]) {
+        case 'a': return checkKeyword(1, 2, "nd", TOKEN_AND);
+        case 'c': return checkKeyword(1, 4, "lass", TOKEN_CLASS);
+        case 'e': return checkKeyword(1, 3, "lse", TOKEN_ELSE);
+        case 'i': return checkKeyword(1, 1, "f", TOKEN_IF);
+        case 'n': return checkKeyword(1, 2, "il", TOKEN_NIL);
+        case 'o': return checkKeyword(1, 1, "r", TOKEN_OR);
+        case 'p': return checkKeyword(1, 4, "rint", TOKEN_PRINT);
+        case 'r': return checkKeyword(1, 5, "eturn", TOKEN_RETURN);
+        case 's': return checkKeyword(1, 4, "uper", TOKEN_SUPER);
+        case 'v': return checkKeyword(1, 2, "ar", TOKEN_VAR);
+        case 'w': return checkKeyword(1, 4, "hile", TOKEN_WHILE);
+    }
+
+    return TOKEN_IDENTIFIER;
+}
+
 static Token number() {
     while(isDigit(peek())) {
         advance();
@@ -144,6 +178,14 @@ static Token string() {
     return makeToken(TOKEN_STRING);
 }
 
+static Token identifier() {
+    while(isAlpha(peek()) || isDigit(peek())) {
+        advance();
+    }
+
+    return makeToken(identiferType());
+}
+
 Token scanToken() {
     skipWhitespace();
 
@@ -154,6 +196,10 @@ Token scanToken() {
     }
 
     char c = advance();
+
+    if(isAlpha(c)) {
+        return identifier();
+    }
 
     if (isDigit(c)) {
         // handle numbers here instead of adding 10 switch cases
