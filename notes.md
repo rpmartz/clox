@@ -17,3 +17,7 @@
     + This is inefficient from a memory standpoint
     + one good part about this design is that it keeps the line numbers out of the bytecode instructions, which means we are not taking up memory that could be used for other instructions for data (line numbers) that will only be used when we need to display an error (which is hopefully infrequently)
     
+# Chapter 16 Scanning on Demand
+
+* in clox we do not include the actual literal value of the strings in the tokens, just pointers to the start and end 
+    
